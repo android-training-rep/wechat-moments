@@ -6,11 +6,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.wechatmoments.model.User;
-import com.example.wechatmoments.repository.UserRepository;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.example.wechatmoments.model.Tweet;
+import com.example.wechatmoments.repository.TweetRepository;
 
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Observer;
@@ -19,26 +18,26 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserViewModel extends ViewModel {
+public class TweetsViewModel extends ViewModel {
 
-    public static final String TAG = "UserViewModel";
+    public static final String TAG = "TweetsViewModel";
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private MutableLiveData<User> user;
-    private UserRepository userRepository;
+    private MutableLiveData<List<Tweet>> tweets;
+    private TweetRepository tweetRepository;
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void setTweetRepository(TweetRepository tweetRepository) {
+        this.tweetRepository = tweetRepository;
     }
 
-    public LiveData<User> getUser() {
-        if (Objects.isNull(user)) {
-            user = new MutableLiveData<>();
+    public LiveData<List<Tweet>> getTweets() {
+        if (Objects.isNull(tweets)) {
+            tweets = new MutableLiveData<List<Tweet>>();
         }
-        return user;
+        return tweets;
     }
 
-    public void loadUserInfo() {
-        userRepository.loadUserInfo()
+    public void loadTweets() {
+        tweetRepository.loadTweets()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new Observer<String>(){
@@ -50,13 +49,9 @@ public class UserViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(String str) {
-                        Gson gson = new Gson();
-                        java.lang.reflect.Type type = new TypeToken<User>() {}.getType();
-                        User userInfo = gson.fromJson(str, type);
-                        Log.d(TAG, "--------onNext--------" + userInfo.getUsername());
-                        user.postValue(userInfo);
-
+                    public void onNext(String s) {
+                        Log.d(TAG, "--------onNext--------" + s);
+                        // todo 处理数据
                     }
 
                     @Override
@@ -69,11 +64,6 @@ public class UserViewModel extends ViewModel {
                         Log.d(TAG, "--------onComplete--------");
                     }
                 });
-    }
 
-    @Override
-    protected void onCleared() {
-        compositeDisposable.clear();
-        super.onCleared();
     }
 }

@@ -2,22 +2,23 @@ package com.example.wechatmoments.repository;
 
 import com.example.wechatmoments.utils.HttpUtil;
 import com.example.wechatmoments.utils.UrlUtil;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
-public class UserRepository {
+public class TweetRepository {
     private HttpUtil httpUtil;
 
-    public UserRepository(HttpUtil httpUtil) {
+    public TweetRepository(HttpUtil httpUtil) {
         this.httpUtil = httpUtil;
     }
 
-    public Observable loadUserInfo() {
+    public Observable loadTweets() {
         return Observable.create(new ObservableOnSubscribe<String>(){
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                httpUtil.request(UrlUtil.USER_INFO_URL, emitter);
+                httpUtil.request(UrlUtil.TWEETS_URL, emitter);
             }
         });
     }
