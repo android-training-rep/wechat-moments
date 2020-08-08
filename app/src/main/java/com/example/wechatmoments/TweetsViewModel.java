@@ -2,6 +2,7 @@ package com.example.wechatmoments;
 
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -34,11 +35,15 @@ public class TweetsViewModel extends ViewModel {
         this.tweetRepository = tweetRepository;
     }
 
-    public LiveData<List<Tweet>> getTweets() {
+    private LiveData<List<Tweet>> getTweets() {
         if (Objects.isNull(tweets)) {
             tweets = new MutableLiveData<List<Tweet>>();
         }
         return tweets;
+    }
+
+    public void observeTweets(LifecycleOwner lifecycleOwner, androidx.lifecycle.Observer<List<Tweet>> observer) {
+        this.getTweets().observe(lifecycleOwner, observer);
     }
 
     public void loadTweets() {

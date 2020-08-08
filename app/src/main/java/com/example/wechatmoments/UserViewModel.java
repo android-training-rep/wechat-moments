@@ -2,15 +2,18 @@ package com.example.wechatmoments;
 
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.model.User;
 import com.example.wechatmoments.repository.UserRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Observer;
@@ -31,11 +34,15 @@ public class UserViewModel extends ViewModel {
         this.userRepository = userRepository;
     }
 
-    public LiveData<User> getUser() {
+    private LiveData<User> getUser() {
         if (Objects.isNull(user)) {
             user = new MutableLiveData<>();
         }
         return user;
+    }
+
+    public void observeUser(LifecycleOwner lifecycleOwner, androidx.lifecycle.Observer<User> observer) {
+        this.getUser().observe(lifecycleOwner, observer);
     }
 
     public void loadUserInfo() {

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         nick = findViewById(R.id.nick);
 
         userViewModel = obtainUserViewModel();
-        Observer userObserver = new Observer<User>(){
+        userViewModel.observeUser(this,new Observer<User>(){
             @Override
             public void onChanged(User user) {
                 if (Objects.nonNull(user.getProfileImage())) {
@@ -54,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 nick.setText(user.getNick());
             }
-        };
-        userViewModel.getUser().observe(this, userObserver);
-
+        });
         userViewModel.loadUserInfo();
 
         RecyclerView recyclerView = findViewById(R.id.tweets_recycler_view);
@@ -68,14 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         tweetsViewModel = obtainTweetsViewModel();
-        Observer tweetsObserver = new Observer<List<Tweet>>() {
+        tweetsViewModel.observeTweets(this, new Observer<List<Tweet>>() {
             @Override
             public void onChanged(List<Tweet> tweets) {
                 System.out.println("------tweets size:------" + tweets.size());
                 tweetsAdapter.setTweets(tweets);
             }
-        };
-        tweetsViewModel.getTweets().observe(this, tweetsObserver);
+        });
         tweetsViewModel.loadTweets();
 
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.tweets_swipe_refresh);
