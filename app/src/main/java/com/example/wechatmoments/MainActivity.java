@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("-------------user:" + user.getProfileImage());
                 // todo profile-image 转换
                 if (Objects.nonNull(user.getProfileImage())) {
+                    System.out.println("-------------user:" + user.getProfileImage());
                     Glide.with(profileImage).load(user.getProfileImage()).into(profileImage);
                 }
                 if (Objects.nonNull(user.getAvatar())) {

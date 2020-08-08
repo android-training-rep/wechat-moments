@@ -1,10 +1,12 @@
 package com.example.wechatmoments.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     private String username;
     private String nick;
     private String avatar;
-    private String profileImage;
+    @SerializedName("profile-image")private String profileImage;
 
     public String getUsername() {
         return username;
