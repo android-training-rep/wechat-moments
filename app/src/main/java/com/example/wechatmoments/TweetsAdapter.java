@@ -1,6 +1,7 @@
 package com.example.wechatmoments;
 
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +20,17 @@ import java.util.Objects;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsViewHolder> {
     private List<Tweet> tweets;
+    Context context;
 
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
         this.notifyDataSetChanged();
-
     }
 
     @NonNull
     @Override
     public TweetsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tweet_item, parent, false);
         return new TweetsViewHolder(itemView);
     }
@@ -40,22 +42,28 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsViewHolder> {
         User sender = currentTweet.getSender();
         String[] images = currentTweet.getImages();
         Comment[] comments = currentTweet.getComments();
+
         if (Objects.nonNull(content)) {
             holder.contentView.setText(currentTweet.getContent());
         }
+
         if (Objects.nonNull(sender)) {
             holder.senderNickView.setText(sender.getNick());
             ImageView avatarView = holder.avatarView;
             Glide.with(avatarView).load(currentTweet.getSender().getAvatar()).into(avatarView);
         }
+
         if (Objects.nonNull(images)) {
-            System.out.println("---------have images---------" + position);
             ImagesAdapter imagesAdapter = new ImagesAdapter(images);
             holder.imagesGridView.setAdapter(imagesAdapter);
         }
-        if (Objects.nonNull(comments)) {
-            System.out.println("---------have comments---------" + position);
 
+        if (Objects.nonNull(comments)) {
+            holder.commentsView.setVisibility(View.VISIBLE);
+            CommentsAdapter commentsAdapter = new CommentsAdapter(comments);
+            holder.commentsView.setAdapter(commentsAdapter);
+        } else {
+            holder.commentsView.setVisibility(View.GONE);
         }
     }
 
