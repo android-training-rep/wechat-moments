@@ -16,8 +16,8 @@
         />
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/image_width_height"
+        android:layout_height="@dimen/image_width_height"
         app:layout_constraintTop_toTopOf="@+id/profile_image"
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"

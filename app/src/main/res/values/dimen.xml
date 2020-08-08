@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="image_width_height">80dp</dimen>
+    <dimen name="sender_width_height">40dp</dimen>
+    <dimen name="tweets_margin_top">6dp</dimen>
+    <dimen name="ten_dp">10dp</dimen>
+    <dimen name="twenty_dp">20dp</dimen>
+</resources>
