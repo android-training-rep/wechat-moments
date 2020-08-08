@@ -5,8 +5,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -75,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
         };
         tweetsViewModel.getTweets().observe(this, tweetsObserver);
         tweetsViewModel.loadTweets();
+
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.tweets_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorBlue);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //这里获取更多数据的逻辑
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
 
