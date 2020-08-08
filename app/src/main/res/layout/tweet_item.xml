@@ -31,6 +31,11 @@
             android:layout_marginTop="6dp"
             android:textColor="@color/colorDark"
             />
+        <GridView
+            android:id="@+id/images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3" />
         <TextView
             android:id="@+id/comments"
             android:layout_width="match_parent"

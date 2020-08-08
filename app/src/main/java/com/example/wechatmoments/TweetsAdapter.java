@@ -41,17 +41,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsViewHolder> {
         String[] images = currentTweet.getImages();
         Comment[] comments = currentTweet.getComments();
         if (Objects.nonNull(content)) {
-            System.out.println("---------have content---------" + position);
             holder.contentView.setText(currentTweet.getContent());
         }
         if (Objects.nonNull(sender)) {
-            System.out.println("---------have sender---------" + position);
             holder.senderNickView.setText(sender.getNick());
             ImageView avatarView = holder.avatarView;
             Glide.with(avatarView).load(currentTweet.getSender().getAvatar()).into(avatarView);
         }
         if (Objects.nonNull(images)) {
             System.out.println("---------have images---------" + position);
+            ImagesAdapter imagesAdapter = new ImagesAdapter(images);
+            holder.imagesGridView.setAdapter(imagesAdapter);
         }
         if (Objects.nonNull(comments)) {
             System.out.println("---------have comments---------" + position);
