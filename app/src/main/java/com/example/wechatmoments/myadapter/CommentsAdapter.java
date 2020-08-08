@@ -1,13 +1,12 @@
-package com.example.wechatmoments;
+package com.example.wechatmoments.myadapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.example.wechatmoments.R;
 import com.example.wechatmoments.model.Comment;
 
 import java.util.Objects;

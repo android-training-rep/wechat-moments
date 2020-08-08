@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.model.User;
+import com.example.wechatmoments.myadapter.TweetsAdapter;
 import com.example.wechatmoments.repository.TweetRepository;
 import com.example.wechatmoments.repository.UserRepository;
 import com.example.wechatmoments.utils.HttpUtil;
@@ -43,10 +44,7 @@ public class MainActivity extends AppCompatActivity {
         Observer userObserver = new Observer<User>(){
             @Override
             public void onChanged(User user) {
-                System.out.println("-------------user:" + user.getProfileImage());
-                // todo profile-image 转换
                 if (Objects.nonNull(user.getProfileImage())) {
-                    System.out.println("-------------user:" + user.getProfileImage());
                     Glide.with(profileImage).load(user.getProfileImage()).into(profileImage);
                 }
                 if (Objects.nonNull(user.getAvatar())) {
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         Observer tweetsObserver = new Observer<List<Tweet>>() {
             @Override
             public void onChanged(List<Tweet> tweets) {
-                System.out.println("-------------tweets:" + tweets.size());
+                System.out.println("------tweets size:------" + tweets.size());
                 tweetsAdapter.setTweets(tweets);
             }
         };

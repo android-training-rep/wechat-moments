@@ -1,4 +1,4 @@
-package com.example.wechatmoments;
+package com.example.wechatmoments.myadapter;
 
 
 import android.content.Context;
@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.wechatmoments.R;
+import com.example.wechatmoments.TweetsViewHolder;
 import com.example.wechatmoments.model.Comment;
 import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.model.User;
@@ -45,6 +47,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsViewHolder> {
 
         if (Objects.nonNull(content)) {
             holder.contentView.setText(currentTweet.getContent());
+        } else {
+            holder.contentView.setVisibility(View.GONE);
         }
 
         if (Objects.nonNull(sender)) {

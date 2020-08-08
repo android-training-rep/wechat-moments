@@ -1,4 +1,4 @@
-package com.example.wechatmoments;
+package com.example.wechatmoments.myadapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.wechatmoments.R;
 
 import java.util.Objects;
 
