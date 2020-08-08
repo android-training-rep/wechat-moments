@@ -17,6 +17,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class UserViewModel extends ViewModel {
@@ -40,8 +41,15 @@ public class UserViewModel extends ViewModel {
     public void loadUserInfo() {
         userRepository.loadUserInfo()
                 .subscribeOn(Schedulers.io())
+                .map(new Function<String, User>() {
+                    @Override
+                    public User apply(String str) throws Exception {
+                        java.lang.reflect.Type type = new TypeToken<User>() {}.getType();
+                        return new Gson().fromJson(str, type);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new Observer<String>(){
+                .subscribeWith(new Observer<User>(){
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -50,10 +58,7 @@ public class UserViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(String str) {
-                        Gson gson = new Gson();
-                        java.lang.reflect.Type type = new TypeToken<User>() {}.getType();
-                        User userInfo = gson.fromJson(str, type);
+                    public void onNext(User userInfo) {
                         Log.d(TAG, "--------onNext--------" + userInfo.getUsername());
                         user.postValue(userInfo);
 

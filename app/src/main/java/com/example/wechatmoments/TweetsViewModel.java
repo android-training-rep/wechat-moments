@@ -14,11 +14,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class TweetsViewModel extends ViewModel {
@@ -42,8 +44,14 @@ public class TweetsViewModel extends ViewModel {
     public void loadTweets() {
         tweetRepository.loadTweets()
                 .subscribeOn(Schedulers.io())
+                .map(new Function<String, List<Tweet>>(){
+                    public List<Tweet> apply(String str) throws Exception {
+                        Type collectionType = new TypeToken<List<Tweet>>(){}.getType();
+                        return new Gson().fromJson(str, collectionType);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new Observer<String>(){
+                .subscribeWith(new Observer<List<Tweet>>(){
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -52,12 +60,11 @@ public class TweetsViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(String str) {
+                    public void onNext(List<Tweet> list) {
                         Log.d(TAG, "--------onNext--------");
-                        // todo 处理数据
-                        Gson gson = new Gson();
-                        Type collectionType = new TypeToken<List<Tweet>>(){}.getType();
-                        List<Tweet> list = gson.fromJson(str, collectionType);
+                        list = list.stream().filter((Tweet tweet) ->
+                                (Objects.nonNull(tweet.getContent()) || Objects.nonNull(tweet.getImages()))
+                        ).collect(Collectors.toList());
                         tweets.postValue(list);
                     }
 
