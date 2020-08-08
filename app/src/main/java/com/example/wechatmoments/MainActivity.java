@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     Glide.with(profileImage).load(user.getProfileImage()).into(profileImage);
                 }
                 if (Objects.nonNull(user.getAvatar())) {
-                    Glide.with(avatar).load(user.getAvatar()).into(avatar);
+                    Glide.with(avatar).load(user.getAvatar()).circleCrop().into(avatar);
                 }
                 nick.setText(user.getNick());
             }

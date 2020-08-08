@@ -7,13 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.model.User;
 import com.example.wechatmoments.repository.UserRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.Observer;
