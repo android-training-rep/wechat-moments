@@ -3,6 +3,9 @@ package com.example.wechatmoments;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import com.example.wechatmoments.repository.UserRepository;
 import com.example.wechatmoments.utils.HttpUtil;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,10 +43,14 @@ public class MainActivity extends AppCompatActivity {
         Observer userObserver = new Observer<User>(){
             @Override
             public void onChanged(User user) {
-                System.out.println("-------------user:" + user.getNick());
+                System.out.println("-------------user:" + user.getProfileImage());
                 // todo profile-image 转换
-                Glide.with(profileImage).load(user.getProfileImage()).into(profileImage);
-                Glide.with(avatar).load(user.getAvatar()).into(avatar);
+                if (Objects.nonNull(user.getProfileImage())) {
+                    Glide.with(profileImage).load(user.getProfileImage()).into(profileImage);
+                }
+                if (Objects.nonNull(user.getAvatar())) {
+                    Glide.with(avatar).load(user.getAvatar()).into(avatar);
+                }
                 nick.setText(user.getNick());
             }
         };
@@ -50,12 +58,20 @@ public class MainActivity extends AppCompatActivity {
 
         userViewModel.loadUserInfo();
 
+        RecyclerView recyclerView = findViewById(R.id.tweets_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final TweetsAdapter tweetsAdapter = new TweetsAdapter();
+        recyclerView.setAdapter(tweetsAdapter);
+
 
         tweetsViewModel = obtainTweetsViewModel();
         Observer tweetsObserver = new Observer<List<Tweet>>() {
             @Override
             public void onChanged(List<Tweet> tweets) {
                 System.out.println("-------------tweets:" + tweets.size());
+                tweetsAdapter.setTweets(tweets);
             }
         };
         tweetsViewModel.getTweets().observe(this, tweetsObserver);

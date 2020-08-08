@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.wechatmoments.model.Tweet;
 import com.example.wechatmoments.repository.TweetRepository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,9 +52,13 @@ public class TweetsViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(String s) {
-                        Log.d(TAG, "--------onNext--------" + s);
+                    public void onNext(String str) {
+                        Log.d(TAG, "--------onNext--------");
                         // todo 处理数据
+                        Gson gson = new Gson();
+                        Type collectionType = new TypeToken<List<Tweet>>(){}.getType();
+                        List<Tweet> list = gson.fromJson(str, collectionType);
+                        tweets.postValue(list);
                     }
 
                     @Override
@@ -64,6 +71,11 @@ public class TweetsViewModel extends ViewModel {
                         Log.d(TAG, "--------onComplete--------");
                     }
                 });
+    }
 
+    @Override
+    protected void onCleared() {
+        compositeDisposable.clear();
+        super.onCleared();
     }
 }
